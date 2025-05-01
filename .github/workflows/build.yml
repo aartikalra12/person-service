@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -24,7 +24,7 @@ jobs:
         run: mvn clean package
 
       - name: Upload Lambda artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lambda-jar
           path: target/person-service-1.0-SNAPSHOT.jar
