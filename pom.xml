@@ -68,13 +68,6 @@
             <artifactId>lambda</artifactId>
 	    <version>2.139.0</version>
         </dependency>
-
-        <!-- Optional: CDK Plugin for Maven -->
-        <dependency>
-           <groupId>software.amazon.awscdk</groupId>
-           <artifactId>cdk-maven-plugin</artifactId>
-           <version>2.139.0</version>
-        </dependency>
     </dependencies>
 
     <build>
