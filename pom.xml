@@ -61,13 +61,6 @@
             <artifactId>constructs</artifactId>
             <version>10.3.0</version>
         </dependency>
-
-        <!-- AWS Lambda Runtime -->
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>lambda</artifactId>
-	    <version>2.139.0</version>
-        </dependency>
     </dependencies>
 
     <build>
