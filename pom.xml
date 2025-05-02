@@ -11,7 +11,17 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awscdk</groupId>
+                <artifactId>aws-cdk-lib</artifactId>
+                <version>2.139.0</version> <!-- You can use the latest version -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -37,6 +47,31 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.15.2</version>
+        </dependency>
+	<!-- AWS CDK Core Library -->
+        <dependency>
+            <groupId>software.amazon.awscdk</groupId>
+            <artifactId>aws-cdk-lib</artifactId>
+        </dependency>
+
+        <!-- CDK Constructs support -->
+        <dependency>
+            <groupId>software.constructs</groupId>
+            <artifactId>constructs</artifactId>
+            <version>10.3.0</version>
+        </dependency>
+
+        <!-- AWS Lambda Runtime -->
+        <dependency>
+            <groupId>software.amazon.awscdk</groupId>
+            <artifactId>lambda</artifactId>
+        </dependency>
+
+        <!-- Optional: CDK Plugin for Maven -->
+        <dependency>
+           <groupId>software.amazon.awscdk</groupId>
+           <artifactId>cdk-maven-plugin</artifactId>
+           <version>2.139.0</version>
         </dependency>
     </dependencies>
 
