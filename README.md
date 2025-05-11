@@ -76,23 +76,21 @@ cdk deploy
 
 ---
 
-## 🕪️ Running Tests
-```bash
-mvn test
-```
-
----
-
 ## 📬 API Endpoints
 
 ### POST /person
 Create a new person
 ```json
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "phoneNumber": "+1234567890",
-  "address": "Amsterdam"
+  "firstName": "Aarti",
+  "lastName": "Kalra",
+  "phone": "+1234567890",
+  "address": {
+      "street": "Amsterdam 1",
+      "postalCode": "1234AB",
+      "city": "Amsterdam",
+      "country": "Netherlands"
+  }
 }
 ```
 
