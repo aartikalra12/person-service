@@ -170,12 +170,7 @@ person-service/
 
 ## ✅ Extra Features
 - Input validation using `jakarta.validation`
-- Unit tests using JUnit and Mockito
 - Health check endpoint
 - Modular handler setup for clear separation
 
 ---
-
-## 📌 TODO
-- [ ] Add integration tests
-- [ ] Set up CI/CD (e.g.,
