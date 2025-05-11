@@ -39,7 +39,7 @@ public class PersonStack extends Stack {
             .handler("com.tikkie.person.handler.CreatePersonHandler::handleRequest")
             .code(Code.fromAsset("target/person-service-1.0-SNAPSHOT.jar"))
             .environment(java.util.Map.of("TABLE_NAME", personTable.getTableName()))
-            .timeout(Duration.seconds(10))
+            .timeout(Duration.seconds(20))
             .build();
 
         createPersonFunction.addToRolePolicy(PolicyStatement.Builder.create()
