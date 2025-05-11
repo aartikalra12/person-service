@@ -105,6 +105,45 @@ Health check
 
 ---
 
+## 🔧 Example `curl` Commands
+
+### 🔍 Get API ID from Deployed Stack (CLI)
+```bash
+aws cloudformation describe-stacks --stack-name PersonServiceStack \
+  --query "Stacks[0].Outputs"
+```
+This command returns the stack outputs including the API Gateway URL. Extract the API ID from that URL.
+
+
+### 🆕 Create a Person
+```bash
+curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/person \
+  -H "Content-Type: application/json" \
+  -d '{
+     "firstName": "D",
+     "lastName": "Mandal",
+     "phone": "+31123456789",
+     "address": {
+        "street": "Amsterdam 1",
+        "postalCode": "1234AB",
+        "city": "Amsterdam",
+        "country": "Netherlands"
+     }
+  }'
+```
+
+### 📅 Get All Persons
+```bash
+curl https://<api-id>.execute-api.<region>.amazonaws.com/prod/person
+```
+
+### ❤️ Health Check
+```bash
+curl https://<api-id>.execute-api.<region>.amazonaws.com/prod/health
+```
+
+---
+
 ## 🚑 Troubleshooting
 
 ### ❌ `InvalidClientTokenId` or `security token is invalid`
