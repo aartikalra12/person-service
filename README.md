@@ -18,7 +18,7 @@ This is a serverless Java-based Person microservice deployed via AWS CDK. It sup
 
 ### 1. Clone and Build the Project
 ```bash
-git clone https://github.com/aartikalra12/person-service.git
+git clone https://github.com/your-repo/person-service.git
 cd person-service
 mvn clean package
 ```
@@ -48,14 +48,29 @@ aws sts get-caller-identity
 ```
 If credentials are valid, you’ll see IAM user details.
 
-### 5. Bootstrap CDK (if running CDK for the first time)
-```bash
-cdk bootstrap aws://<account-id>/<region>
+### 5. Create cdk.json
+Ensure you have a `cdk.json` file in the root of your project with the following content:
+```json
+{
+  "app": "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack"
+}
 ```
 
-### 6. Synthesize and Deploy the CDK Stack
+### 6. Bootstrap CDK (if running CDK for the first time)
+Use the following command with your AWS account ID and region:
+```bash
+cdk bootstrap aws://123456789012/eu-west-1
+```
+Replace with your actual AWS account ID and region.
+
+### 7. Synthesize and Deploy the CDK Stack
+Ensure the JAR is compiled and present:
 ```bash
 mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
+```
+Then synthesize and deploy:
+```bash
+cdk synth
 cdk deploy
 ```
 
@@ -95,10 +110,20 @@ Health check
 **Fix:** Run `aws configure` again to reconfigure your credentials.
 
 ### ❌ `--app is required either in command-line, in cdk.json or in ~/.cdk.json`
-**Fix:** Run the CDK app using:
+**Fix:** Ensure your `cdk.json` file contains the correct app config, or pass `--app` flag explicitly:
 ```bash
-mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
+cdk synth --app "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack"
 ```
+
+### ❌ `Specify an environment name like 'aws://123456789012/eu-west-1'...`
+**Fix:** Use full bootstrap command:
+```bash
+cdk bootstrap aws://123456789012/eu-west-1
+```
+Replace with your account ID and region.
+
+### ❌ `ClassNotFoundException: com.tikkie.person.PersonStack`
+**Fix:** Ensure your main class path is correct in the command above.
 
 ### ❌ `package software.amazon.awscdk does not exist`
 **Fix:** Check that dependencies are correctly added in your `pom.xml`. Use the correct version like `2.139.0`.
@@ -120,6 +145,9 @@ mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
 ### ❌ Lambda `timeout`
 **Fix:** The handler might be stuck or unable to reach DynamoDB. Increase memory or check the code logic.
 
+### ❌ `seconds(int)` method error
+**Fix:** Use `Duration.ofSeconds(int)` from `software.amazon.awscdk.Duration`.
+
 ---
 
 ## 📁 Folder Structure
@@ -135,6 +163,7 @@ person-service/
 │       └── model/Person.java
 ├── target/person-service-1.0-SNAPSHOT.jar
 ├── pom.xml
+├── cdk.json
 ```
 
 ---
@@ -146,3 +175,7 @@ person-service/
 - Modular handler setup for clear separation
 
 ---
+
+## 📌 TODO
+- [ ] Add integration tests
+- [ ] Set up CI/CD (e.g.,
