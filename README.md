@@ -1,175 +1,149 @@
-# 🚀 Tikkie - Person Service (Serverless)
+# Person Service – Serverless Microservice on AWS
 
-This project is a **serverless Java-based microservice** to manage persons. It is designed using **AWS Lambda, API Gateway, DynamoDB**, and **AWS CDK (Java)**. It exposes a `/person` REST endpoint to create and retrieve persons and a `/health` endpoint for health checks.
-
----
-
-## 📁 Project Structure
-
-```
-src/
-└── main/java/com/tikkie/person/
-    ├── handler/                   # Lambda handlers
-    ├── model/                     # Person model
-    └── PersonStack.java           # CDK infrastructure definition
-```
+This is a serverless Java-based Person microservice deployed via AWS CDK. It supports creating and retrieving persons using API Gateway, Lambda, and DynamoDB.
 
 ---
 
-## 🛠️ Prerequisites
-
-- Java 17+
-- Maven
-- AWS CLI configured with valid credentials
-- Node.js + NPM
-- AWS CDK CLI v2 (install: `npm install -g aws-cdk`)
-- GitHub repo (optional, for CI/CD integration)
+## 📆 Tech Stack
+- **Java 17**
+- **AWS CDK (v2)**
+- **API Gateway**
+- **AWS Lambda**
+- **Amazon DynamoDB**
+- **Maven**
 
 ---
 
-## ✅ Setup Instructions
+## 🛠️ Setup
 
-### 1. Clone and build the Lambda JAR
-
+### 1. Clone and Build the Project
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/your-repo/person-service.git
 cd person-service
 mvn clean package
 ```
 
-Make sure the JAR is generated at:
-```
-target/person-service-1.0-SNAPSHOT.jar
+### 2. Install AWS CLI
+Ensure the AWS CLI is installed:
+```bash
+aws --version
 ```
 
-### 2. Bootstrap CDK (once per AWS account/region)
+### 3. Configure AWS Credentials
+Run this command to configure your AWS credentials (needed before deployment):
+```bash
+aws configure
+```
+You’ll be prompted for:
+- AWS Access Key ID
+- AWS Secret Access Key
+- Default region (e.g., eu-west-1)
+- Output format (e.g., json)
 
+This stores credentials in `~/.aws/credentials` and is required before using any AWS CDK or CLI commands.
+
+### 4. Verify Credentials
+```bash
+aws sts get-caller-identity
+```
+If credentials are valid, you’ll see IAM user details.
+
+### 5. Bootstrap CDK (if running CDK for the first time)
 ```bash
 cdk bootstrap
 ```
 
-### 3. Deploy the Stack
-
+### 6. Synthesize and Deploy the CDK Stack
 ```bash
-cdk deploy --app "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack"
-```
-
-This deploys:
-- 3 Lambda functions (Create, Get, Health)
-- 1 API Gateway
-- 1 DynamoDB table (`Persons`)
-
----
-
-## 🌐 API Endpoints
-
-| Method | Endpoint            | Description          |
-|--------|---------------------|----------------------|
-| GET    | `/health`           | Health check         |
-| POST   | `/person`           | Create new person    |
-| GET    | `/person`           | List all persons     |
-
----
-
-## 📦 Environment Variables
-
-Each Lambda uses:
-
-```bash
-TABLE_NAME=Persons
+mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
+cdk synth
+cdk deploy
 ```
 
 ---
 
-## 🧪 Testing
-
-### Health check
-
+## 🕪️ Running Tests
 ```bash
-curl https://<your-api-id>.execute-api.<region>.amazonaws.com/prod/health
-```
-
-### Create a person
-
-```bash
-curl -X POST https://<your-api-id>.execute-api.<region>.amazonaws.com/prod/person \
-  -H "Content-Type: application/json" \
-  -d '{"firstName":"John", "lastName":"Doe", "phone":"1234567890", "address":"123 Main St"}'
-```
-
-### Get all persons
-
-```bash
-curl https://<your-api-id>.execute-api.<region>.amazonaws.com/prod/person
+mvn test
 ```
 
 ---
 
-## 🧰 Troubleshooting
+## 📬 API Endpoints
 
-### ❌ `Missing download info for actions/upload-artifact@v3`
-- Caused by a misconfigured GitHub Action.
-- Fix: Ensure you're referencing a valid version in `.github/workflows/*.yml`.
+### POST /person
+Create a new person
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "+1234567890",
+  "address": "Amsterdam"
+}
+```
 
-### ❌ `The security token included in the request is invalid`
-- Fix: Run `aws configure` again to set proper credentials.
+### GET /person
+Fetch all persons
+
+### GET /health
+Health check
+
+---
+
+## 🚑 Troubleshooting
+
+### ❌ `InvalidClientTokenId` or `security token is invalid`
+**Fix:** Run `aws configure` again to reconfigure your credentials.
 
 ### ❌ `--app is required either in command-line, in cdk.json or in ~/.cdk.json`
-- Fix: Use the full command:
-  ```bash
-  cdk deploy --app "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack"
-  ```
-
-### ❌ `ClassNotFoundException: com.tikkie.person.PersonStack`
-- Fix: Ensure the fully qualified class name matches the file path.
-- Ensure you're compiling with Maven:
-  ```bash
-  mvn clean compile
-  ```
+**Fix:** Run the CDK app using:
+```bash
+mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
+```
 
 ### ❌ `package software.amazon.awscdk does not exist`
-- Fix: Add the correct Maven dependencies (see below).
+**Fix:** Check that dependencies are correctly added in your `pom.xml`. Use the correct version like `2.139.0`.
 
-### ❌ `Cannot find asset at` during `cdk synth`
-- Fix: Ensure JAR is built with:
-  ```bash
-  mvn clean package
-  ```
+### ❌ Maven Dependency Resolution Errors
+**Fix:** AWS CDK libraries are not in Maven Central. Add the AWS Maven repo to `pom.xml`:
+```xml
+<repositories>
+  <repository>
+    <id>aws</id>
+    <url>https://aws.oss.sonatype.org/content/repositories/releases/</url>
+  </repository>
+</repositories>
+```
 
-### ❌ Lambda Timeout (Internal Server Error)
-- Fix: Add timeouts to all Lambda definitions:
-  ```java
-  .timeout(Duration.seconds(10))
-  ```
-- Also, add logging in handler classes to debug cold starts or logic issues.
+### ❌ `Cannot find asset` during `cdk synth`
+**Fix:** Ensure the `person-service-1.0-SNAPSHOT.jar` is built and located in the `target/` directory.
+
+### ❌ Lambda `timeout`
+**Fix:** The handler might be stuck or unable to reach DynamoDB. Increase memory or check the code logic.
 
 ---
 
-## 📦 Maven Dependencies
-
-Make sure you include the following in your `pom.xml`:
-
-```xml
-<dependencies>
-  <dependency>
-    <groupId>software.amazon.awscdk</groupId>
-    <artifactId>aws-cdk-lib</artifactId>
-    <version>2.139.0</version>
-  </dependency>
-  <dependency>
-    <groupId>software.constructs</groupId>
-    <artifactId>constructs</artifactId>
-    <version>10.3.0</version>
-  </dependency>
-</dependencies>
+## 📁 Folder Structure
+```
+person-service/
+├── src/
+│   └── main/java/com/tikkie/person/
+│       ├── PersonStack.java
+│       ├── handler/
+│       │   ├── CreatePersonHandler.java
+│       │   ├── GetPersonsHandler.java
+│       │   └── HealthCheckHandler.java
+│       └── model/Person.java
+├── target/person-service-1.0-SNAPSHOT.jar
+├── pom.xml
 ```
 
 ---
 
-## 📌 Notes
+## ✅ Extra Features
+- Input validation using `jakarta.validation`
+- Unit tests using JUnit and Mockito
+- Health check endpoint
+- Modular handler setup for clear separation
 
-- Java cold starts are longer—keep timeouts >= 10s.
-- Avoid hardcoding ARNs or sensitive values—use environment variables.
-- Use DynamoDB best practices (e.g., partition key selection, scaling).
-
-
+---
