@@ -20,12 +20,10 @@ import java.util.List;
 
 public class PersonStack extends Stack {
     public PersonStack(final Construct scope, final String id) {
-        // Get the environment context (dev or prod)
-        String environment = this.getNode().tryGetContext("environment");
         this(scope, id + environment, null);
     }
 
-    public PersonStack(final Construct scope, String id, final StackProps props) {
+    public PersonStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
         // DynamoDB Table
@@ -85,7 +83,7 @@ public class PersonStack extends Stack {
 
     public static void main(final String[] args) {
         App app = new App();
-        new PersonStack(app, "PersonServiceStack-");
+        new PersonStack(app, "PersonServiceStack");
         app.synth();
     }
 }
