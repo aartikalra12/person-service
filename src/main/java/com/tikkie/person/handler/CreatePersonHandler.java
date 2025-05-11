@@ -48,7 +48,7 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
         PutEventsRequestEntry eventEntry = PutEventsRequestEntry.builder()
             .source("com.tikkie.person")
             .detailType("PersonCreated")
-            .eventBusName("default") // or your custom bus name
+            .eventBusName("default")
             .detail("{\"firstName\":\"" + person.getFirstName() + "\","
                     + "\"lastName\":\"" + person.getLastName() + "\","
                     + "\"phoneNumber\":\"" + person.getPhone() + "\"}")
