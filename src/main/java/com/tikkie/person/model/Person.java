@@ -17,10 +17,10 @@ public class Person {
 
     public Person() {}
 
-    public Person(String firstName, String lastName, String phoneNumber, String address) {
+    public Person(String firstName, String lastName, String phone, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
         this.address = address;
     }
 
