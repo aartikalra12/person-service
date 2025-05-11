@@ -36,6 +36,8 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
                     .withString("phone", person.getPhone())
                     .withMap("address", objectMapper.convertValue(person.getAddress(), java.util.Map.class)));
 
+            publishPersonCreatedEvent(person);
+
             return new APIGatewayProxyResponseEvent().withStatusCode(201).withBody("Person created with ID: " + person.getId());
         } catch (Exception e) {
             return new APIGatewayProxyResponseEvent().withStatusCode(500).withBody("Error: " + e.getMessage());
