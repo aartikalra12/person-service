@@ -18,7 +18,7 @@ This is a serverless Java-based Person microservice deployed via AWS CDK. It sup
 
 ### 1. Clone and Build the Project
 ```bash
-git clone https://github.com/your-repo/person-service.git
+git clone https://github.com/aartikalra12/person-service.git
 cd person-service
 mvn clean package
 ```
