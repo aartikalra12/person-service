@@ -50,13 +50,12 @@ If credentials are valid, you’ll see IAM user details.
 
 ### 5. Bootstrap CDK (if running CDK for the first time)
 ```bash
-cdk bootstrap
+cdk bootstrap aws://<account-id>/<region>
 ```
 
 ### 6. Synthesize and Deploy the CDK Stack
 ```bash
 mvn compile exec:java -Dexec.mainClass=com.tikkie.person.PersonStack
-cdk synth
 cdk deploy
 ```
 
