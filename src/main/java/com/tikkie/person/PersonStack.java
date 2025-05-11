@@ -43,6 +43,7 @@ public class PersonStack extends Stack {
             .handler("com.tikkie.person.handler.GetPersonsHandler::handleRequest")
             .code(Code.fromAsset("target/person-service-1.0-SNAPSHOT.jar"))
             .environment(java.util.Map.of("TABLE_NAME", personTable.getTableName()))
+            .timeout(Duration.seconds(10))
             .build();
 
         // Health Check Lambda
