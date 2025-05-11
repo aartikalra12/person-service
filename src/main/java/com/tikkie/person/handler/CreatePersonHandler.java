@@ -63,6 +63,6 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
     
         PutEventsResponse response = eventBridge.putEvents(request);
 
-        System.out.println("EventBridge response: " + response);
+        logger.info("EventBridge response: " + response);
     }
 }
