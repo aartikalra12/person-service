@@ -73,6 +73,20 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
+
+	<!-- SLF4J API (Logging interface) -->
+    	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>2.0.0-alpha1</version>
+        </dependency>
+
+        <!-- Logback (implementation of SLF4J) -->
+    	<dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.5</version> 
+        </dependency>
     </dependencies>
 
     <build>
