@@ -1,6 +1,6 @@
 {
   "app": "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack",
   "context": {
-    "environment": "dev",  // Default environment is dev/prod
+    "environment": "dev",  // Default environment is dev prod
   }
 }
