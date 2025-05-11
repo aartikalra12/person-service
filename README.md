@@ -49,10 +49,13 @@ aws sts get-caller-identity
 If credentials are valid, you’ll see IAM user details.
 
 ### 5. Create cdk.json
-Ensure you have a `cdk.json` file in the root of your project with the following content:
+Ensure you have a `cdk.json` file in the root of your project with the following content (context can change based on the type of environment - dev/prod):
 ```json
 {
-  "app": "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack"
+  "app": "mvn exec:java -Dexec.mainClass=com.tikkie.person.PersonStack",
+  "context": {
+    "environment": "dev"
+  }
 }
 ```
 
