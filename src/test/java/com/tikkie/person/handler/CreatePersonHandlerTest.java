@@ -3,53 +3,67 @@ package com.tikkie.person.handler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tikkie.person.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreatePersonHandlerTest {
 
     private CreatePersonHandler handler;
-    private ObjectMapper objectMapper;
+    private Context context;
 
     @BeforeEach
     public void setup() {
         handler = new CreatePersonHandler();
-        objectMapper = new ObjectMapper();
+        context = new TestContext(); // You can implement a basic TestContext if needed
     }
 
     @Test
-    public void testHandleRequest_validInput_returnsSuccess() throws Exception {
-        Person person = new Person("Aarti", "Kalra", "+1234567890", "Amsterdam");
-        String jsonInput = objectMapper.writeValueAsString(person);
+    public void testValidCreatePersonRequest() {
+        String validInput = """
+        {
+          "firstName": "John",
+          "lastName": "Doe",
+          "phoneNumber": "+1234567890",
+          "address": {
+            "street": "Keizersgracht 123",
+            "city": "Amsterdam",
+            "postalCode": "1015CJ"
+          }
+        }
+        """;
 
         APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent()
-                .withBody(jsonInput);
-
-        Context context = Mockito.mock(Context.class);
+                .withBody(validInput);
 
         APIGatewayProxyResponseEvent response = handler.handleRequest(event, context);
 
-        assertNotNull(response);
-        assertEquals(200, response.getStatusCode());
+        assertEquals(201, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertTrue(response.getBody().contains("Person created successfully"));
     }
 
     @Test
-    public void testHandleRequest_invalidInput_returnsBadRequest() {
-        APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent()
-                .withBody("invalid-json");
+    public void testInvalidCreatePersonRequest_MissingFirstName() {
+        String invalidInput = """
+        {
+          "lastName": "Doe",
+          "phoneNumber": "+1234567890",
+          "address": {
+            "street": "Keizersgracht 123",
+            "city": "Amsterdam",
+            "postalCode": "1015CJ"
+          }
+        }
+        """;
 
-        Context context = Mockito.mock(Context.class);
+        APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent()
+                .withBody(invalidInput);
 
         APIGatewayProxyResponseEvent response = handler.handleRequest(event, context);
 
-        assertNotNull(response);
         assertEquals(400, response.getStatusCode());
-        assertTrue(response.getBody().contains("Invalid request"));
+        assertTrue(response.getBody().contains("Validation failed"));
     }
-} 
+}
