@@ -17,7 +17,7 @@ public class Person {
 
     public Person() {}
 
-    public Person(String firstName, String lastName, String phone, String address) {
+    public Person(String firstName, String lastName, String phone, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
