@@ -1,7 +1,7 @@
 // src/main/java/com/tikkie/person/PersonStack.java
 package com.tikkie.person;
 
-import java.time.Duration;
+import javafx.util.Duration;
 import software.amazon.awscdk.App;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
