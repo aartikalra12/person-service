@@ -13,6 +13,7 @@ import com.tikkie.person.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.services.eventbridge.EventBridgeClient;
 import software.amazon.awssdk.services.eventbridge.model.*;
+import java.util.logging.Logger;
 
 import java.util.UUID;
 
