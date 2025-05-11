@@ -11,6 +11,8 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.tikkie.person.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import software.amazon.awssdk.services.eventbridge.EventBridgeClient;
+import software.amazon.awssdk.services.eventbridge.model.*;
 
 import java.util.UUID;
 
@@ -18,6 +20,7 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
     private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.defaultClient());
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String TABLE_NAME = "Persons";
+    private final EventBridgeClient eventBridge = EventBridgeClient.builder().build();
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
@@ -37,5 +40,22 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
         } catch (Exception e) {
             return new APIGatewayProxyResponseEvent().withStatusCode(500).withBody("Error: " + e.getMessage());
         }
+    }
+
+    private void publishPersonCreatedEvent(Person person) {
+        PutEventsRequestEntry eventEntry = PutEventsRequestEntry.builder()
+            .source("com.tikkie.person")
+            .detailType("PersonCreated")
+            .eventBusName("default") // or your custom bus name
+            .detail("{\"firstName\":\"" + person.getFirstName() + "\","
+                    + "\"lastName\":\"" + person.getLastName() + "\","
+                    + "\"phoneNumber\":\"" + person.getPhone() + "\"}")
+            .build();
+    
+        PutEventsRequest request = PutEventsRequest.builder()
+            .entries(eventEntry)
+            .build();
+    
+        eventBridge.putEvents(request);
     }
 }
