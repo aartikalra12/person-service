@@ -16,6 +16,7 @@ import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.lambda.Code;
 import software.constructs.Construct;
+import java.util.List;
 
 public class PersonStack extends Stack {
     public PersonStack(final Construct scope, final String id) {
