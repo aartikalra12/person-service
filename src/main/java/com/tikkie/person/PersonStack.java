@@ -20,7 +20,9 @@ import java.util.List;
 
 public class PersonStack extends Stack {
     public PersonStack(final Construct scope, final String id) {
-        this(scope, id, null);
+        // Get the environment context (dev or prod)
+        String environment = this.getNode().tryGetContext("environment");
+        this(scope, id + environment, null);
     }
 
     public PersonStack(final Construct scope, String id, final StackProps props) {
@@ -83,11 +85,7 @@ public class PersonStack extends Stack {
 
     public static void main(final String[] args) {
         App app = new App();
-        
-        // Get the environment context (dev or prod)
-        String environment = this.getNode().tryGetContext("environment");
-        String stackName = "PersonServiceStack-" + environment;
-        new PersonStack(app, stackName);
+        new PersonStack(app, "PersonServiceStack-");
         app.synth();
     }
 }
