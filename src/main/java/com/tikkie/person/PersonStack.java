@@ -1,8 +1,8 @@
 // src/main/java/com/tikkie/person/PersonStack.java
 package com.tikkie.person;
 
-import java.time.Duration;
 import software.amazon.awscdk.App;
+import software.amazon.awscdk.Duration;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.apigateway.LambdaRestApi;
