@@ -23,6 +23,7 @@ public class GetPersonsHandler implements RequestHandler<APIGatewayProxyRequestE
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
+        System.out.println("Invoking GetPersonsHandler");
         try {
             Table table = dynamoDB.getTable(TABLE_NAME);
             ScanSpec scanSpec = new ScanSpec();
@@ -32,7 +33,7 @@ public class GetPersonsHandler implements RequestHandler<APIGatewayProxyRequestE
             for (Item item : items) {
                 result.add(item.asMap());
             }
-
+            System.out.println("Successfully fetched persons.");
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
                     .withBody(objectMapper.writeValueAsString(result));
