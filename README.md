@@ -120,9 +120,6 @@ cdk bootstrap aws://123456789012/eu-west-1
 ```
 Replace with your account ID and region.
 
-### ❌ `ClassNotFoundException: com.tikkie.person.PersonStack`
-**Fix:** Ensure your main class path is correct in the command above.
-
 ### ❌ `package software.amazon.awscdk does not exist`
 **Fix:** Check that dependencies are correctly added in your `pom.xml`. Use the correct version like `2.139.0`.
 
@@ -143,9 +140,6 @@ Replace with your account ID and region.
 ### ❌ Lambda `timeout`
 **Fix:** The handler might be stuck or unable to reach DynamoDB. Increase memory or check the code logic.
 
-### ❌ `seconds(int)` method error
-**Fix:** Use `Duration.ofSeconds(int)` from `software.amazon.awscdk.Duration`.
-
 ---
 
 ## 📁 Folder Structure
@@ -163,12 +157,5 @@ person-service/
 ├── pom.xml
 ├── cdk.json
 ```
-
----
-
-## ✅ Extra Features
-- Input validation using `jakarta.validation`
-- Health check endpoint
-- Modular handler setup for clear separation
 
 ---
