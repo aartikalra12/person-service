@@ -21,6 +21,7 @@ public class CreatePersonHandler implements RequestHandler<APIGatewayProxyReques
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String TABLE_NAME = "Persons";
     private final EventBridgeClient eventBridge = EventBridgeClient.builder().build();
+    private static final Logger logger = LoggerFactory.getLogger(CreatePersonHandler.class);
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
