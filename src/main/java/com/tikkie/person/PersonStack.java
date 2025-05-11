@@ -83,7 +83,11 @@ public class PersonStack extends Stack {
 
     public static void main(final String[] args) {
         App app = new App();
-        new PersonStack(app, "PersonServiceStack");
+        
+        // Get the environment context (dev or prod)
+        String environment = this.getNode().tryGetContext("environment");
+        String stackName = "PersonServiceStack-" + environment;
+        new PersonStack(app, stackName);
         app.synth();
     }
 }
