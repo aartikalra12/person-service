@@ -1,4 +1,4 @@
-package com.tikkie.person.handler;
+package com.tikkie.person.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
