@@ -123,17 +123,6 @@ Replace with your account ID and region.
 ### ❌ `package software.amazon.awscdk does not exist`
 **Fix:** Check that dependencies are correctly added in your `pom.xml`. Use the correct version like `2.139.0`.
 
-### ❌ Maven Dependency Resolution Errors
-**Fix:** AWS CDK libraries are not in Maven Central. Add the AWS Maven repo to `pom.xml`:
-```xml
-<repositories>
-  <repository>
-    <id>aws</id>
-    <url>https://aws.oss.sonatype.org/content/repositories/releases/</url>
-  </repository>
-</repositories>
-```
-
 ### ❌ `Cannot find asset` during `cdk synth`
 **Fix:** Ensure the `person-service-1.0-SNAPSHOT.jar` is built and located in the `target/` directory.
 
