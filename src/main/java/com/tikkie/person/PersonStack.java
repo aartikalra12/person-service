@@ -20,7 +20,7 @@ import java.util.List;
 
 public class PersonStack extends Stack {
     public PersonStack(final Construct scope, final String id) {
-        this(scope, id + environment, null);
+        this(scope, id, null);
     }
 
     public PersonStack(final Construct scope, final String id, final StackProps props) {
