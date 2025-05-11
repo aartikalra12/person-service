@@ -23,7 +23,7 @@ public class PersonStack extends Stack {
         this(scope, id, null);
     }
 
-    public PersonStack(final Construct scope, final String id, final StackProps props) {
+    public PersonStack(final Construct scope, String id, final StackProps props) {
         super(scope, id, props);
 
         // DynamoDB Table
