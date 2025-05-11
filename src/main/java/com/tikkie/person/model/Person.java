@@ -15,6 +15,15 @@ public class Person {
     private String phone;
     private Address address;
 
+    public Person() {}
+
+    public Person(String firstName, String lastName, String phoneNumber, String address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     // Getters and setters
 
     public void setId(String id) {
