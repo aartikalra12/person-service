@@ -10,6 +10,8 @@ import software.amazon.awscdk.services.apigateway.Resource;
 import software.amazon.awscdk.services.dynamodb.Attribute;
 import software.amazon.awscdk.services.dynamodb.AttributeType;
 import software.amazon.awscdk.services.dynamodb.Table;
+import software.amazon.awscdk.services.iam.PolicyStatement;
+import software.amazon.awscdk.services.iam.Effect;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.lambda.Code;
@@ -38,6 +40,12 @@ public class PersonStack extends Stack {
             .environment(java.util.Map.of("TABLE_NAME", personTable.getTableName()))
             .timeout(Duration.seconds(10))
             .build();
+
+        createPersonFunction.addToRolePolicy(PolicyStatement.Builder.create()
+            .effect(Effect.ALLOW)
+            .actions(List.of("events:PutEvents"))
+            .resources(List.of("*"))
+            .build());
 
         // Get Persons Lambda
         Function getPersonsFunction = Function.Builder.create(this, "GetPersonsFunction")
